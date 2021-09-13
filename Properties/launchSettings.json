@@ -3,12 +3,11 @@
     "webApp": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
-      "launchBrowser": true,
-      "launchUrl": "https://localhost:44321/api/image",
+      "launchUrl": "https://localhost:8080/api/image",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:44321/"
+      "applicationUrl": "https://localhost:8080/"
     }
   }
 }
