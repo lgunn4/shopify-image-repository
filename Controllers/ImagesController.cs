@@ -16,9 +16,17 @@ namespace shopify_image_repository.Controllers
         }
         
         [HttpGet("public")]
-        public ActionResult<string> GetPublicImages()
+        public ActionResult<string> GetPublicImages([FromQuery] string userId = null)
         {
-            return "Hello Public User! \nWelcome to the API";
+            if (userId is null)
+            {
+                return "Hello Public User! \nWelcome to the API";
+
+            } else if (User.Identity.IsAuthenticated)
+            {            
+                return "Hello " + userId + "! \nWelcome to the API ";
+            }
+            return "You cannot specify userId if you arent authenticated";
         }
 
         [Authorize]
