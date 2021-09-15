@@ -18,6 +18,11 @@ namespace shopify_image_repository.Repository
             return _userImageDbContext.Users.FirstOrDefault(user => user.UserName == userName);
         }
 
+        public User getUserById(string id)
+        {
+            return _userImageDbContext.Users.FirstOrDefault(user => user.UserId.ToString() == id);
+        }
+
         public void addUser(User user)
         {
             _userImageDbContext.Add(user);

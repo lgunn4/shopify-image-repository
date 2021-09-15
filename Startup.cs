@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using shopify_image_repository.Data;
 using shopify_image_repository.Repository;
+using shopify_image_repository.Services;
 
 namespace shopify_image_repository
 {
@@ -39,8 +39,9 @@ namespace shopify_image_repository
                     },
                     options => { Configuration.Bind("AzureAdB2C", options); });
 
-            services.AddSingleton<IImageRepository, ImageRepository>();
-            services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddScoped<IImageRepository, ImageRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IImageService, ImageService>();
             services.AddControllers();
         }
 

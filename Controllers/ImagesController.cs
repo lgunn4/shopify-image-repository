@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using shopify_image_repository.Models;
+using shopify_image_repository.Services;
 
 namespace shopify_image_repository.Controllers
 {
@@ -8,46 +10,44 @@ namespace shopify_image_repository.Controllers
     [ApiController]
     public class ImagesController : ControllerBase
     {
+        private readonly IImageService _imageService;
+        public ImagesController(IImageService imageService)
+        {
+            _imageService = imageService;
+        }
+        
         [Authorize]
         [HttpGet("user")]
-        public ActionResult<string> GetUserImages()
+        public ActionResult<IEnumerable<Image>> GetUserImages()
         {
-            return "Hello User: " + User.Identity.Name + "! \nWelcome to the API";
+            return _imageService.GetUserImages(User.Identity.Name);
         }
         
         [HttpGet("public")]
-        public ActionResult<string> GetPublicImages([FromQuery] string userId = null)
+        public ActionResult<IEnumerable<Image>> GetPublicImages([FromQuery] string userId = null)
         {
-            if (userId is null)
-            {
-                return "Hello Public User! \nWelcome to the API";
-
-            } else if (User.Identity.IsAuthenticated)
-            {            
-                return "Hello " + userId + "! \nWelcome to the API ";
-            }
-            return "You cannot specify userId if you arent authenticated";
+            return userId is null ? _imageService.GetPublicImages() : _imageService.GetPublicUserImages(userId);
         }
 
         [Authorize]
         [HttpPost]
         public ActionResult<string> CreateImage()
         {
-            return Ok();
+            return _imageService.CreateImages(User.Identity.Name);
         }
         
         [Authorize]
         [HttpDelete]
-        public ActionResult<string> DeleteImages([FromBody] List<string> image_ids)
+        public ActionResult DeleteImages([FromBody] List<string> imageIds)
         {
-            return Ok();
+            return _imageService.DeleteUserImages(User.Identity.Name, imageIds);
         }
         
         [Authorize]
         [HttpDelete("all")]
         public ActionResult<string> DeleteAllImages()
         {
-            return Ok();
+            return _imageService.DeleteAllImages(User.Identity.Name);
         }
     }
 }
