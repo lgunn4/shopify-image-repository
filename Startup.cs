@@ -6,8 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using shopify_image_repository.Data;
+using shopify_image_repository.Repository;
 
 namespace shopify_image_repository
 {
@@ -22,7 +24,7 @@ namespace shopify_image_repository
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ImageRepositoryContext>(options =>
+            services.AddDbContext<UserImageDbContext>(options =>
                options.UseInMemoryDatabase(databaseName: "shopify-image-repository-db"));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddMicrosoftIdentityWebApi(options =>
@@ -36,7 +38,9 @@ namespace shopify_image_repository
                             };
                     },
                     options => { Configuration.Bind("AzureAdB2C", options); });
-            
+
+            services.AddSingleton<IImageRepository, ImageRepository>();
+            services.AddSingleton<IUserRepository, UserRepository>();
             services.AddControllers();
         }
 

@@ -23,8 +23,8 @@ namespace shopify_image_repository
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<ImageRepositoryContext>();
-                    DbInitializer.Initialize(context);
+                    var context = services.GetRequiredService<UserImageDbContext>();
+                    context.Database.EnsureCreated();
                 }
                 catch (Exception ex)
                 {
