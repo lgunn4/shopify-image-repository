@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -54,7 +53,7 @@ namespace shopify_image_repository.Controllers
         
         [Authorize]
         [HttpDelete("all")]
-        public ActionResult<string> DeleteAllImages()
+        public ActionResult DeleteAllImages()
         {
             return _imageService.DeleteAllImages(User.Identity.Name);
         }
