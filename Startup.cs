@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 using Microsoft.AspNetCore.Builder;
@@ -30,7 +31,6 @@ namespace shopify_image_repository
                 .AddMicrosoftIdentityWebApi(options =>
                     {
                         Configuration.Bind("AzureAdB2C", options);
-
                         options.TokenValidationParameters = new 
                             TokenValidationParameters()
                             {
@@ -38,12 +38,14 @@ namespace shopify_image_repository
                             };
                     },
                     options => { Configuration.Bind("AzureAdB2C", options); });
-
+            services.AddScoped(_ => new BlobServiceClient(Configuration.GetConnectionString("AzureBlobStorage")));
+            services.AddSingleton(Configuration);
+            services.AddScoped<IBlobStorageManager, AzureBlobStorageManager>();
             services.AddScoped<IImageRepository, ImageRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddControllers();
-
             services.AddSwaggerGen();
         }
 

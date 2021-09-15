@@ -19,7 +19,14 @@ namespace shopify_image_repository.Repository
                 .Where(image => image.UserId == user.UserId)
                 .AsEnumerable();
         }
-        
+
+        public IEnumerable<Image> GetUserImagesByIds(User user, List<int> imageIds)
+        {
+            return _userImageDbContext.Images
+                .Where(image => image.UserId == user.UserId && imageIds.Any(imageId => image.ImageId == imageId))
+                .AsEnumerable();
+        }
+
         public IEnumerable<Image> GetPrivateUserImages(User user)
         {
             return _userImageDbContext.Images
@@ -40,24 +47,17 @@ namespace shopify_image_repository.Repository
                 .AsEnumerable();
         }
 
-        public void addImages(List<Image> images)
+        public void addImage(Image image)
         {
-            foreach (var image in images)
-            {
-                _userImageDbContext.Add(image);
-            }
+            _userImageDbContext.Add(image);
             _userImageDbContext.SaveChanges();
         }
 
-        public void removeImages(User user, List<string> imageIds)
+        public void removeImages(List<Image> images)
         {
-            foreach (var imageId in imageIds)
-            {
-                var image = _userImageDbContext.Images.FirstOrDefault(dbImage => dbImage.UserId == user.UserId && dbImage.ImageId.ToString() == imageId);
-                if (image != null)
-                {
-                    _userImageDbContext.Remove(image);                
-                }
+            foreach (var image in images)
+            {  
+                _userImageDbContext.Remove(image);
             }
             _userImageDbContext.SaveChanges();
         }

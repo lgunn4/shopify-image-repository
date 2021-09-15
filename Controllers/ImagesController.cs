@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -39,14 +40,14 @@ namespace shopify_image_repository.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult<string> CreateImage([FromForm] List<IFormFile> imageFiles, [FromForm] string title, [FromForm] string description, [FromForm] string location, [FromForm] bool isPublic)
+        public Task<ActionResult> CreateImages([FromForm] List<IFormFile> imageFiles, [FromForm] ImageMetadataModel imageMetadataModel)
         {
-            return _imageService.CreateImages(User.Identity.Name, imageFiles, title, description, location, isPublic);
+            return _imageService.CreateImages(User.Identity.Name, imageFiles, imageMetadataModel);
         }
         
         [Authorize]
         [HttpDelete]
-        public ActionResult DeleteImages([FromBody] List<string> imageIds)
+        public ActionResult DeleteImages([FromBody] List<int> imageIds)
         {
             return _imageService.DeleteUserImages(User.Identity.Name, imageIds);
         }

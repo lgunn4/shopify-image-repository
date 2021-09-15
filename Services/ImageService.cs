@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using shopify_image_repository.Models;
@@ -11,32 +12,24 @@ namespace shopify_image_repository.Services
     public class ImageService : IImageService
     {
         private readonly IImageRepository _imageRepository;
-         private readonly IUserRepository _userRepository;
-         public ImageService(IImageRepository imageRepository, IUserRepository userRepository)
+        private readonly IUserService _userService;
+        private readonly IBlobStorageManager _blobStorageManager;
+         public ImageService(IImageRepository imageRepository, IUserService userService, IBlobStorageManager blobStorageManager)
          {
              _imageRepository = imageRepository;
-             _userRepository = userRepository;
+             _userService = userService;
+             _blobStorageManager = blobStorageManager;
          }
          
         public ActionResult<IEnumerable<Image>> GetUserImages(string userName)
         {
-            if (!UserNameExistsInDatabase(userName))
-            {
-                return new NotFoundResult();
-            }
-
-            var user = _userRepository.getUserByUserName(userName);
+            var user = _userService.GetUserByUserName(userName);
             return new ActionResult<IEnumerable<Image>>(_imageRepository.GetUserImages(user));
         }
 
         public ActionResult<IEnumerable<Image>> GetPrivateUserImages(string userName)
         {
-            if (!UserNameExistsInDatabase(userName))
-            {
-                return new NotFoundResult();
-            }
-
-            var user = _userRepository.getUserByUserName(userName);
+            var user = _userService.GetUserByUserName(userName);
             return new ActionResult<IEnumerable<Image>>(_imageRepository.GetPrivateUserImages(user));
         }
         
@@ -47,72 +40,62 @@ namespace shopify_image_repository.Services
 
         public ActionResult<IEnumerable<Image>> GetPublicUserImages(string userId)
         {
-            if (!UserIdExistsInDatabase(userId))
+            try
+            {
+                var user = _userService.GetUserByUserId(userId);
+                return new ActionResult<IEnumerable<Image>>(_imageRepository.GetPublicUserImages(user));
+            } 
+            catch (UserNotFoundException)
             {
                 return new NotFoundResult();
             }
-
-            var user = _userRepository.getUserById(userId);
-            return new ActionResult<IEnumerable<Image>>(_imageRepository.GetPublicUserImages(user));
         }
 
-        public ActionResult CreateImages(string userName, List<IFormFile> imageFiles, string title, string description, string location, bool isPublic)
+        public async Task<ActionResult> CreateImages(string userName, List<IFormFile> imageFiles, ImageMetadataModel imageMetadataModel)
         {
-            if (!UserNameExistsInDatabase(userName))
+            var user = _userService.GetUserByUserName(userName);
+            foreach (var imageFile in imageFiles)
             {
-                _userRepository.addUser(new User{UserName = userName});
+                var image = BuildImage(imageMetadataModel, user.UserId);
+                await _blobStorageManager.upload(imageFile, image.blobId);
+                _imageRepository.addImage(image);
             }
-
-            var user = _userRepository.getUserByUserName(userName);
-            var imagesToAdd = imageFiles.Select(imageFile => new Image
-                {
-                    ImageDescription = description,
-                    Location = location,
-                    ImageTitle = title,
-                    UploadDate = DateTime.Now,
-                    UserId = user.UserId,
-                    IsPublic = isPublic
-                })
-                .ToList();
-            _imageRepository.addImages(imagesToAdd);
-
             return new OkResult();
         }
 
-        public ActionResult DeleteUserImages(string userName, List<string> imageIds)
+        public ActionResult DeleteUserImages(string userName, List<int> imageIds)
         {
-            if (!UserNameExistsInDatabase(userName))
-            {
-                return new NotFoundResult();
-            }
-
-            var user = _userRepository.getUserByUserName(userName);
-            _imageRepository.removeImages(user, imageIds);
+            var user = _userService.GetUserByUserName(userName);
+            var imagesToDelete = _imageRepository.GetUserImagesByIds(user, imageIds).ToList();
+            
+            _imageRepository.removeImages(imagesToDelete);
+            _blobStorageManager.delete(imagesToDelete);
             return new OkResult();
         }
 
         public ActionResult DeleteAllImages(string userName)
         {
-            if (!UserNameExistsInDatabase(userName))
-            {
-                return new NotFoundResult();
-            }
+            var user = _userService.GetUserByUserName(userName);
+            var imagesToDelete = _imageRepository.GetUserImages(user).ToList();
             
-            var user = _userRepository.getUserByUserName(userName);
-            _imageRepository.removeAllImages(user);
+            _imageRepository.removeImages(imagesToDelete);
+            _blobStorageManager.delete(imagesToDelete);
             return new OkResult();
         }
 
-        private bool UserNameExistsInDatabase(string userName)
+        private Image BuildImage(ImageMetadataModel imageMetadataModel, int userId)
         {
-            var user = _userRepository.getUserByUserName(userName);
-            return user != null;
-        }
-
-        private bool UserIdExistsInDatabase(string userId)
-        {
-            var user = _userRepository.getUserById(userId);
-            return user != null;
+            var blobId = Guid.NewGuid().ToString();
+            return new Image
+            {
+                ImageDescription = imageMetadataModel.Description,
+                Location = imageMetadataModel.Location,
+                blobId = blobId,
+                ImageUrl = _blobStorageManager.getImageUrl(blobId),
+                UploadDate = DateTime.Now,
+                UserId = userId,
+                IsPublic = imageMetadataModel.IsPublic
+            };
         }
     }
 }
