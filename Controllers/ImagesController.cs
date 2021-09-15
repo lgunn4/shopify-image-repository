@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using shopify_image_repository.Models;
 using shopify_image_repository.Services;
@@ -23,6 +25,13 @@ namespace shopify_image_repository.Controllers
             return _imageService.GetUserImages(User.Identity.Name);
         }
         
+        [Authorize]
+        [HttpGet("private")]
+        public ActionResult<IEnumerable<Image>> GetPrivateImages()
+        {
+            return _imageService.GetPrivateUserImages(User.Identity.Name);
+        }
+        
         [HttpGet("public")]
         public ActionResult<IEnumerable<Image>> GetPublicImages([FromQuery] string userId = null)
         {
@@ -31,9 +40,9 @@ namespace shopify_image_repository.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult<string> CreateImage()
+        public ActionResult<string> CreateImage([FromForm] List<IFormFile> imageFiles, [FromForm] string title, [FromForm] string description, [FromForm] string location, [FromForm] bool isPublic)
         {
-            return _imageService.CreateImages(User.Identity.Name);
+            return _imageService.CreateImages(User.Identity.Name, imageFiles, title, description, location, isPublic);
         }
         
         [Authorize]

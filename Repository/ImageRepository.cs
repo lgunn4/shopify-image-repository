@@ -13,13 +13,19 @@ namespace shopify_image_repository.Repository
             _userImageDbContext = userImageDbContext;
         }
         
+        public IEnumerable<Image> GetUserImages(User user)
+        {
+            return _userImageDbContext.Images
+                .Where(image => image.UserId == user.UserId)
+                .AsEnumerable();
+        }
+        
         public IEnumerable<Image> GetPrivateUserImages(User user)
         {
             return _userImageDbContext.Images
                 .Where(image => !image.IsPublic && image.UserId == user.UserId)
                 .AsEnumerable();
         }
-
         public IEnumerable<Image> GetPublicUserImages(User user)
         {
             return _userImageDbContext.Images
@@ -34,31 +40,35 @@ namespace shopify_image_repository.Repository
                 .AsEnumerable();
         }
 
-        public void addImage(Image image)
+        public void addImages(List<Image> images)
         {
-            _userImageDbContext.Add(image);
+            foreach (var image in images)
+            {
+                _userImageDbContext.Add(image);
+            }
             _userImageDbContext.SaveChanges();
         }
 
         public void removeImages(User user, List<string> imageIds)
         {
-            var imagesToRemove = new List<Image>();
             foreach (var imageId in imageIds)
             {
                 var image = _userImageDbContext.Images.FirstOrDefault(dbImage => dbImage.UserId == user.UserId && dbImage.ImageId.ToString() == imageId);
                 if (image != null)
                 {
-                    imagesToRemove.Add(image);
+                    _userImageDbContext.Remove(image);                
                 }
             }
-            _userImageDbContext.Remove(imagesToRemove);
             _userImageDbContext.SaveChanges();
         }
 
         public void removeAllImages(User user)
         {
-            var imagesToRemove = _userImageDbContext.Images.Where(image => image.UserId == user.UserId).GetEnumerator();
-            _userImageDbContext.Remove(imagesToRemove);
+            var imagesToRemove = _userImageDbContext.Images.Where(image => image.UserId == user.UserId).ToList();
+            foreach (var image in imagesToRemove)
+            {  
+                _userImageDbContext.Remove(image);
+            }
             _userImageDbContext.SaveChanges();
         }
     }

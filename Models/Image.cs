@@ -7,7 +7,6 @@ namespace shopify_image_repository.Models
         public int ImageId { get; set; }
         public int UserId { get; set; }
         public string ImageTitle { get; set; }
-        public string ImagePath { get; set; }
         public string ImageDescription { get; set; }
         public string Location { get; set; }
         public DateTime UploadDate { get; set; }

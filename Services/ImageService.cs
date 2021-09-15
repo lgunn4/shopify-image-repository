@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using shopify_image_repository.Models;
 using shopify_image_repository.Repository;
@@ -24,9 +26,20 @@ namespace shopify_image_repository.Services
             }
 
             var user = _userRepository.getUserByUserName(userName);
-            return new ActionResult<IEnumerable<Image>>(_imageRepository.GetPrivateUserImages(user));
+            return new ActionResult<IEnumerable<Image>>(_imageRepository.GetUserImages(user));
         }
 
+        public ActionResult<IEnumerable<Image>> GetPrivateUserImages(string userName)
+        {
+            if (!UserNameExistsInDatabase(userName))
+            {
+                return new NotFoundResult();
+            }
+
+            var user = _userRepository.getUserByUserName(userName);
+            return new ActionResult<IEnumerable<Image>>(_imageRepository.GetPrivateUserImages(user));
+        }
+        
         public ActionResult<IEnumerable<Image>> GetPublicImages()
         {
             return new ActionResult<IEnumerable<Image>>(_imageRepository.GetPublicImages());
@@ -43,9 +56,27 @@ namespace shopify_image_repository.Services
             return new ActionResult<IEnumerable<Image>>(_imageRepository.GetPublicUserImages(user));
         }
 
-        public ActionResult CreateImages(string userName)
+        public ActionResult CreateImages(string userName, List<IFormFile> imageFiles, string title, string description, string location, bool isPublic)
         {
-            throw new NotImplementedException();
+            if (!UserNameExistsInDatabase(userName))
+            {
+                _userRepository.addUser(new User{UserName = userName});
+            }
+
+            var user = _userRepository.getUserByUserName(userName);
+            var imagesToAdd = imageFiles.Select(imageFile => new Image
+                {
+                    ImageDescription = description,
+                    Location = location,
+                    ImageTitle = title,
+                    UploadDate = DateTime.Now,
+                    UserId = user.UserId,
+                    IsPublic = isPublic
+                })
+                .ToList();
+            _imageRepository.addImages(imagesToAdd);
+
+            return new OkResult();
         }
 
         public ActionResult DeleteUserImages(string userName, List<string> imageIds)

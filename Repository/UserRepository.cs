@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using shopify_image_repository.Data;
 using shopify_image_repository.Models;
@@ -20,7 +21,7 @@ namespace shopify_image_repository.Repository
 
         public User getUserById(string id)
         {
-            return _userImageDbContext.Users.FirstOrDefault(user => user.UserId.ToString() == id);
+            return _userImageDbContext.Users.FirstOrDefault(user => user.UserId == Convert.ToInt32(id));
         }
 
         public void addUser(User user)
