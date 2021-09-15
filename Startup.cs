@@ -25,7 +25,7 @@ namespace shopify_image_repository
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<UserImageDbContext>(options =>
-               options.UseInMemoryDatabase(databaseName: "shopify-image-repository-db"));
+               options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddMicrosoftIdentityWebApi(options =>
                     {
