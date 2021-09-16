@@ -29,9 +29,7 @@ Client Secret:
 ````
 
 ### How to Get Token
-OAuth.Tools is a great tool to create Access Tokens:
-
-###[link here!](https://oauth.tools/)
+OAuth.Tools is a great tool to create Access Tokens: [link here!](https://oauth.tools/)
 
 
 Just pass the token as header param "Authorization" and prefix "Bearer "
