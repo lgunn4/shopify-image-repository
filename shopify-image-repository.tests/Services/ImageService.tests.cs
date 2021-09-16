@@ -150,7 +150,7 @@ namespace shopify_image_repository.tests.Services
             service.CreateImages(_testUser.UserName, imageFiles, imageMetadata);
 
             _mockedBlobService.Verify(mock => mock.upload(It.IsAny<IFormFile>(), It.IsAny<string>()), Times.Exactly(imageFiles.Count));
-            _mockedImageRepository.Verify(mock => mock.addImage(It.IsAny<Image>()), Times.Exactly(imageFiles.Count));
+            _mockedImageRepository.Verify(mock => mock.AddImage(It.IsAny<Image>()), Times.Exactly(imageFiles.Count));
         }
         
         [Fact]
@@ -175,7 +175,7 @@ namespace shopify_image_repository.tests.Services
             service.CreateImages(_testUser.UserName, imageFiles, imageMetadata);
 
             _mockedBlobService.Verify(mock => mock.upload(It.IsAny<IFormFile>(), It.IsAny<string>()), Times.Exactly(imageFiles.Count));
-            _mockedImageRepository.Verify(mock => mock.addImage(It.IsAny<Image>()), Times.Exactly(imageFiles.Count));
+            _mockedImageRepository.Verify(mock => mock.AddImage(It.IsAny<Image>()), Times.Exactly(imageFiles.Count));
         }
         
         [Fact]
@@ -193,7 +193,7 @@ namespace shopify_image_repository.tests.Services
             
             _mockedUserService.Verify(mock => mock.GetUserByUserName(It.IsAny<string>()), Times.Once);
             _mockedBlobService.Verify(mock => mock.delete(It.IsAny<List<Image>>()), Times.Once);
-            _mockedImageRepository.Verify(mock => mock.removeImages(It.IsAny<List<Image>>()), Times.Once);
+            _mockedImageRepository.Verify(mock => mock.RemoveImages(It.IsAny<List<Image>>()), Times.Once);
         }
         
         [Fact]
@@ -211,7 +211,7 @@ namespace shopify_image_repository.tests.Services
             
             _mockedUserService.Verify(mock => mock.GetUserByUserName(It.IsAny<string>()), Times.Once);
             _mockedBlobService.Verify(mock => mock.delete(It.IsAny<List<Image>>()), Times.Once);
-            _mockedImageRepository.Verify(mock => mock.removeImages(It.IsAny<List<Image>>()), Times.Once);
+            _mockedImageRepository.Verify(mock => mock.RemoveImages(It.IsAny<List<Image>>()), Times.Once);
         }
     }
 }

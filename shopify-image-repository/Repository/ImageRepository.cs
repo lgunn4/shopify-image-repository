@@ -47,25 +47,15 @@ namespace shopify_image_repository.Repository
                 .AsEnumerable();
         }
 
-        public void addImage(Image image)
+        public void AddImage(Image image)
         {
             _userImageDbContext.Add(image);
             _userImageDbContext.SaveChanges();
         }
 
-        public void removeImages(List<Image> images)
+        public void RemoveImages(List<Image> images)
         {
             foreach (var image in images)
-            {  
-                _userImageDbContext.Remove(image);
-            }
-            _userImageDbContext.SaveChanges();
-        }
-
-        public void removeAllImages(User user)
-        {
-            var imagesToRemove = _userImageDbContext.Images.Where(image => image.UserId == user.UserId).ToList();
-            foreach (var image in imagesToRemove)
             {  
                 _userImageDbContext.Remove(image);
             }
