@@ -31,6 +31,8 @@ Client Secret:
 ### How to Get Token
 OAuth.Tools is a great tool to create Access Tokens: [link here!](https://oauth.tools/)
 
+But you can also create the authorization token through Postman.
+
 
 Just pass the token as header param "Authorization" and prefix "Bearer "
 
