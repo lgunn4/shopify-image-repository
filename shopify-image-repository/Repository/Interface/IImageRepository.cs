@@ -10,7 +10,7 @@ namespace shopify_image_repository.Repository
         IEnumerable<Image> GetPrivateUserImages(User user);
         IEnumerable<Image> GetPublicUserImages(User user);
         IEnumerable<Image> GetPublicImages();
-        void addImage(Image image);
-        void removeImages(List<Image> images);
+        void AddImage(Image image);
+        void RemoveImages(List<Image> images);
     }
 }

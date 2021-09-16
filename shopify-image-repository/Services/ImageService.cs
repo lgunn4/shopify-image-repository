@@ -58,7 +58,7 @@ namespace shopify_image_repository.Services
             {
                 var image = BuildImage(imageMetadataModel, user.UserId);
                 await _blobStorageManager.upload(imageFile, image.blobId);
-                _imageRepository.addImage(image);
+                _imageRepository.AddImage(image);
             }
             return new OkResult();
         }
@@ -68,7 +68,7 @@ namespace shopify_image_repository.Services
             var user = _userService.GetUserByUserName(userName);
             var imagesToDelete = _imageRepository.GetUserImagesByIds(user, imageIds).ToList();
             
-            _imageRepository.removeImages(imagesToDelete);
+            _imageRepository.RemoveImages(imagesToDelete);
             _blobStorageManager.delete(imagesToDelete);
             return new OkResult();
         }
@@ -78,7 +78,7 @@ namespace shopify_image_repository.Services
             var user = _userService.GetUserByUserName(userName);
             var imagesToDelete = _imageRepository.GetUserImages(user).ToList();
             
-            _imageRepository.removeImages(imagesToDelete);
+            _imageRepository.RemoveImages(imagesToDelete);
             _blobStorageManager.delete(imagesToDelete);
             return new OkResult();
         }

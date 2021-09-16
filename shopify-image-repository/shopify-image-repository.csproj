@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <WebProject_DirectoryAccessLevelKey>0</WebProject_DirectoryAccessLevelKey>
     <UserSecretsId>0a38413c-083e-4e45-910f-0b8e6bdd3d5e</UserSecretsId>
-    <RootNamespace>WebApp-OpenIDConnect-DotNet</RootNamespace>
+    <RootNamespace>shopify-image-repository</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,5 +17,4 @@
   <ItemGroup>
     <Folder Include="Resources" />
   </ItemGroup>
-
 </Project>
