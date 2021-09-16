@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>shopify_image_rerpository.tests</RootNamespace>
+    <TargetFramework>net3.1</TargetFramework>
+    <RootNamespace>shopify_image_repository.tests</RootNamespace>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
