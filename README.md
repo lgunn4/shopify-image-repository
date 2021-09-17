@@ -1,5 +1,7 @@
 # Shopify-image-repository
 
+![System Diagram](./readmeFiles/diagram.png)
+
 Access the Api Here: [Deployment Link](https://shopify-image-repository-api.azurewebsites.net/)
 
 See the Swagger here: [Swagger link](https://shopify-image-repository-api.azurewebsites.net/swagger/index.html)
@@ -35,11 +37,3 @@ But you can also create the authorization token through Postman.
 
 
 Just pass the token as header param "Authorization" and prefix "Bearer "
-
-
-
-## System Diagram
-
-
-
-![System Diagram](./readmeFiles/diagram.png)
