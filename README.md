@@ -1,12 +1,12 @@
 # Shopify-image-repository
 
-![System Diagram](./readmeFiles/diagram.png)
+![System Diagram](./readme-files/diagram.png)
 
 Access the Api Here: [Deployment Link](https://shopify-image-repository-api.azurewebsites.net/)
 
 See the Swagger here: [Swagger link](https://shopify-image-repository-api.azurewebsites.net/swagger/index.html)
 
-![Endpoints Image](./readmeFiles/endpoints.png)
+![Endpoints Image](./readme-files/endpoints.png)
 
 ## Get Token from Azure B2c Authentication:
     
