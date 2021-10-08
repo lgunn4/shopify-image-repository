@@ -1,0 +1,433 @@
+{
+	"info": {
+		"_postman_id": "03d28c40-9435-4441-a069-9eee7ef0b260",
+		"name": "Shoppies",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get User Images",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientId",
+							"value": "{{client-id}}",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "{{client-secret}}",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "{{auth-url}}",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "{{callback-url}}",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "{{token-url}}",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "image repo token",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{shopify-image-repo-url}}/api/images/user",
+					"host": [
+						"{{shopify-image-repo-url}}"
+					],
+					"path": [
+						"api",
+						"images",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Private User Images",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientId",
+							"value": "{{client-id}}",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "{{client-secret}}",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "{{auth-url}}",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "{{callback-url}}",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "{{token-url}}",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "image repo token",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{shopify-image-repo-url}}/api/images/private",
+					"host": [
+						"{{shopify-image-repo-url}}"
+					],
+					"path": [
+						"api",
+						"images",
+						"private"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Public User Images",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{shopify-image-repo-url}}/api/images/public?userId=1",
+					"host": [
+						"{{shopify-image-repo-url}}"
+					],
+					"path": [
+						"api",
+						"images",
+						"public"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Public Images",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{shopify-image-repo-url}}/api/images/public",
+					"host": [
+						"{{shopify-image-repo-url}}"
+					],
+					"path": [
+						"api",
+						"images",
+						"public"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Image",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientId",
+							"value": "{{client-id}}",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "{{client-secret}}",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "{{auth-url}}",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "{{callback-url}}",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "{{token-url}}",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "image repo token",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "imageFiles",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "description",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "Location",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "IsPublic",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{shopify-image-repo-url}}/api/images",
+					"host": [
+						"{{shopify-image-repo-url}}"
+					],
+					"path": [
+						"api",
+						"images"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Images",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientId",
+							"value": "{{client-id}}",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "{{client-secret}}",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "{{auth-url}}",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "{{callback-url}}",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "{{token-url}}",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "image repo token",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[  ]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{shopify-image-repo-url}}/api/images",
+					"host": [
+						"{{shopify-image-repo-url}}"
+					],
+					"path": [
+						"api",
+						"images"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete All User Images",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientId",
+							"value": "{{client-id}}",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "{{client-secret}}",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "{{auth-url}}",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "{{callback-url}}",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "{{token-url}}",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "image repo token",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{shopify-image-repo-url}}/api/images/all",
+					"host": [
+						"{{shopify-image-repo-url}}"
+					],
+					"path": [
+						"api",
+						"images",
+						"all"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
