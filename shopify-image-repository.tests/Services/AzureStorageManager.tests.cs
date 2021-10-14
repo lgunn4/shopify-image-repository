@@ -76,7 +76,7 @@ namespace shopify_image_repository.tests.Services
             Assert.Equal(expectedResult, result);
         }
         
-        private List<Image> Generate_Test_Images()
+        private static List<Image> Generate_Test_Images()
         {
             return new List<Image>
             {
