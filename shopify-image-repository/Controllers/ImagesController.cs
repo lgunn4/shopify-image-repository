@@ -40,9 +40,9 @@ namespace shopify_image_repository.Controllers
 
         [Authorize]
         [HttpPost]
-        public Task<ActionResult> CreateImages([FromForm] List<IFormFile> imageFiles, [FromForm] ImageMetadataModel imageMetadataModel)
+        public Task<ActionResult> CreateImages([FromForm] List<IFormFile> ImageFiles, [FromForm] ImageMetadataModel imageMetadataModel)
         {
-            return _imageService.CreateImages(User.Identity.Name, imageFiles, imageMetadataModel);
+            return _imageService.CreateImages(User.Identity.Name, ImageFiles, imageMetadataModel);
         }
         
         [Authorize]
